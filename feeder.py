@@ -12,9 +12,6 @@ from PIL import Image
     validation set etc - methods necessary to train a neural network. The input
     data will in a csv file, with each datapoint represented in rows. The last 
     entry in each row will be the data's class.
-    
-    Note that ``one_hot`` option for this class does not currently work - it's 
-    off always
 '''
 
 class Feeder():
