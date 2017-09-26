@@ -10,15 +10,15 @@ import numpy as np
 from cnn_model import Model
 
 # dictionary (class to corresponding letter)
-dict = {0: 'Alpha', 1: 'Beta', 2: 'Delta', 3: 'Epsilon', 4: 'Phi', 
-        5: 'Gamma', 6: 'Eta', 7: 'Iota', 8: 'Iota', 9: 'Xi',
-        10: 'Lambda', 11: 'Mu', 12: 'Nu', 13: 'Omega', 14: 'Omicron',
+dict = {0: 'Alpha', 1: 'Beta', 2: 'Delta', 3: 'Epsilon', 4: 'Fi', 
+        5: 'Gamma', 6: 'Heta', 7: 'Iota', 8: 'Kappa', 9: 'Ksi',
+        10: 'Lambda', 11: 'Mi', 12: 'Ni', 13: 'Omega', 14: 'Omicron',
         15: 'Pi', 16: 'Psi', 17: 'Rho', 18: 'Sigma', 19: 'Tau', 
-        20: 'Theta', 21: 'Chi', 22: 'Upsilon', 23: 'Zeta'}
+        20: 'Theta', 21: 'Xi', 22: 'Ypsilon', 23: 'Zeta'}
 
 def main():
     # the brain
-    brain = Model('./models/2')
+    brain = Model('./models/3')
     
     # color constants for PIL
     white = (255, 255, 255)
@@ -158,7 +158,7 @@ def main():
         for ps in priorpoints:
             backimage.line(ps, fill=255, width=25)
         print('prior points:', priorpoints) # debug, see content of priorpoints
-        im = backimagedata.resize((45,45), Image.LINEAR)
+        im = backimagedata.resize((40,40), Image.LINEAR)
         im = im.filter(ImageFilter.GaussianBlur(radius=2))
         
         def flatten_image(im):

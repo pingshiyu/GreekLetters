@@ -6,14 +6,15 @@ Created on 13 Sep 2017
 
 '''
     Train and obtain a CNN model on the greek_letters dataset.
-    The dataset used this time is around ~2 million in size.
+    The dataset used this time is around ~240k in size.
     The CNN here will have structure:
     
-    input -> conv(7*7, 40 chnls + 2x2 pool) -> conv(5*5, 40 chnls + 2x2 pool)
+    input -> conv(6*6, 40 chnls + 2x2 pool) -> conv(5*5, 40 chnls + 2x2 pool)
     -> fc1 -> output
     
     All layers have ReLU activation.
 '''
+
 # for data feeding
 from feeder import Feeder
 
@@ -25,14 +26,14 @@ from tensorflow_layers import fc_layer, conv_layer, flatten_2d
 
 # constants:
 CLASSES = 24
-IMG_SIZE = 45
+IMG_SIZE = 40
 IMG_SIZE_FLAT = IMG_SIZE*IMG_SIZE
 TRAIN_BATCH_SIZE = 128
-MODELNUM = 2
+MODELNUM = 3
 TENSORBOARD_DIR = './tmp/{}/'.format(MODELNUM)
 
-# load in the data saved in ./data/cleanData.csv
-data = Feeder(file_path = './data/cleanData.csv',
+# load in the data saved in './data/warped_40x40/warped_data_240k.csv'
+data = Feeder(file_path = './data/warped_40x40/warped_data_240k.csv',
               classes = CLASSES)
 
 def feed_dict(train = True, all_test_data = False):
@@ -76,8 +77,9 @@ if __name__ == '__main__':
     conv_layer1 = conv_layer(x_conv_input, 
                              input_channels = 1, 
                              output_channels = 40, 
-                             filter_dimension = 7,
+                             filter_dimension = 6,
                              with_pooling = True,
+                             padding = 'VALID',
                              name = 'conv1')
     
     conv_layer2 = conv_layer(conv_layer1,
@@ -85,6 +87,7 @@ if __name__ == '__main__':
                              output_channels = 80,
                              filter_dimension = 5,
                              with_pooling = True,
+                             padding = 'VALID',
                              name = 'conv2')
     
     # fc1_features should be IMG_DIM*IMG_DIM*16/(4^2) = IMG_DIM*IMG_DIM
@@ -122,7 +125,7 @@ if __name__ == '__main__':
         # decayed by a factor of ~3e-5 of the original
         learning_rate = tf.train.exponential_decay(init_learning_rate, 
                                                    global_step,
-                                                   200, 
+                                                   133, 
                                                    0.96, 
                                                    staircase = True,
                                                    name = 'learning_rate')
@@ -148,7 +151,7 @@ if __name__ == '__main__':
     sess.run(tf.global_variables_initializer())
     
     # train our network for a lot of generations
-    for i in range(50000):
+    for i in range(20000):
         summary, _ = sess.run([merged, optimizer], 
                               feed_dict=feed_dict(True))
         train_writer.add_summary(summary, i)

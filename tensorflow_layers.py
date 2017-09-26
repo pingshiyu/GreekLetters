@@ -46,7 +46,8 @@ def flatten_2d(tensor):
 def conv_layer(X, input_channels = 1, output_channels = 32,
                   filter_dimension = 5,
                   with_pooling = True,
-                  name = None):
+                  name = None,
+                  padding = 'VALID'):
     '''
     Puts the data input through the convolutional layer, specified by its 
     parameters.
@@ -58,6 +59,7 @@ def conv_layer(X, input_channels = 1, output_channels = 32,
     filter_dimension: int specifying the side length of the square filter
     with_pooling: boolean
     name: String
+    padding: String, either 'VALID' or 'SAME', as defined in tensorflow
     
     Returns the ``X`` after being transformed by the layer
     '''
@@ -81,7 +83,7 @@ def conv_layer(X, input_channels = 1, output_channels = 32,
         # outputs a 4d tensor, shape: [?, input_dim, input_dim, out_chnls]
         layer_output = tf.nn.conv2d(X, filters,
                                     strides = [1,1,1,1], # one at a time
-                                    padding = 'VALID') + biases
+                                    padding = padding) + biases
         
         if with_pooling:
             # applies 2x2 max_pooling to simplify the image
