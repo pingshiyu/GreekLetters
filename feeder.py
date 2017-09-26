@@ -9,12 +9,14 @@ from PIL import Image
 
 '''
     Feeder object which will provide interface to batch, get the testing set,
-    validation set etc - methods necessary to train a neural network. The input
-    data will in a csv file, with each datapoint represented in rows. The last 
-    entry in each row will be the data's class.
+    validation set etc - methods necessary to train a neural network. 
     
-    Note that ``one_hot`` option for this class does not currently work - it's 
-    off always
+    The input data will in a csv file, with each datapoint (flatten 1d images)
+    represented in rows. The last entry in each row will be the data's class.
+    i.e. [flattened image vector, class]
+    
+    The seperator used in the .CSV should be a space (' ') character. Though
+    this can be easily changed in _reload_data() and _make_test_validation_set()   
 '''
 
 class Feeder():
